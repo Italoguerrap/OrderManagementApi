@@ -1,47 +1,47 @@
 # API de Gerenciamento de Pedidos
 
-Uma API RESTful robusta para gerenciamento de pedidos de produtos, construída com .NET 8 e seguindo princípios de arquitetura limpa. Esta API fornece uma solução completa para criar e gerenciar pedidos e produtos em um contexto de e-commerce ou varejo.
+Uma API RESTful robusta para gerenciamento de pedidos de produtos, construÃ­da com .NET 8 e seguindo princÃ­pios de arquitetura limpa. Esta API fornece uma soluÃ§Ã£o completa para criar e gerenciar pedidos e produtos em um contexto de e-commerce ou varejo.
 
-## ?? Sumário
+## ğŸ“‹ SumÃ¡rio
 
 - [Arquitetura](#arquitetura)
 - [Tecnologias](#tecnologias)
 - [Funcionalidades](#funcionalidades)
-- [Documentação da API](#documentação-da-api)
+- [DocumentaÃ§Ã£o da API](#documentaÃ§Ã£o-da-api)
 - [Endpoints da API](#endpoints-da-api)
-- [Regras de Negócio](#regras-de-negócio)
-- [Como Começar](#como-começar)
+- [Regras de NegÃ³cio](#regras-de-negÃ³cio)
+- [Como ComeÃ§ar](#como-comeÃ§ar)
 - [Banco de Dados](#banco-de-dados)
 - [Testes](#testes)
 
-## ??? Arquitetura
+## ğŸ—ï¸ Arquitetura
 
-O projeto segue os princípios de Arquitetura Limpa (Clean Architecture), separado em quatro projetos principais:
+O projeto segue os princÃ­pios de Arquitetura Limpa (Clean Architecture), separado em quatro projetos principais:
 
-- **OrderManagement.Domain**: Contém entidades de negócio, enumerações e exceções de domínio
-- **OrderManagement.Application**: Contém lógica de negócio, DTOs, interfaces e serviços
-- **OrderManagement.Infrastructure**: Contém contexto de banco de dados, implementação de repositórios e serviços externos
-- **OrderManagementApi**: Contém controladores da API, modelos de requisição, validação e middleware
+- **OrderManagement.Domain**: ContÃ©m entidades de negÃ³cio, enumeraÃ§Ãµes e exceÃ§Ãµes de domÃ­nio
+- **OrderManagement.Application**: ContÃ©m lÃ³gica de negÃ³cio, DTOs, interfaces e serviÃ§os
+- **OrderManagement.Infrastructure**: ContÃ©m contexto de banco de dados, implementaÃ§Ã£o de repositÃ³rios e serviÃ§os externos
+- **OrderManagementApi**: ContÃ©m controladores da API, modelos de requisiÃ§Ã£o, validaÃ§Ã£o e middleware
 
 Esta arquitetura proporciona:
-- Clara separação de responsabilidades
-- Inversão de dependência (módulos de alto nível não dependem de módulos de baixo nível)
-- Componentes testáveis
-- Código base manutenível e escalável
+- Clara separaÃ§Ã£o de responsabilidades
+- InversÃ£o de dependÃªncia (mÃ³dulos de alto nÃ­vel nÃ£o dependem de mÃ³dulos de baixo nÃ­vel)
+- Componentes testÃ¡veis
+- CÃ³digo base manutenÃ­vel e escalÃ¡vel
 
-## ?? Tecnologias
+## ğŸš€ Tecnologias
 
-- **.NET 8**: Plataforma .NET mais recente para construção de aplicações de alto desempenho e multiplataforma
-- **ASP.NET Core**: Framework web para construção de APIs RESTful
-- **Entity Framework Core**: ORM para operações de banco de dados
+- **.NET 8**: Plataforma .NET mais recente para construÃ§Ã£o de aplicaÃ§Ãµes de alto desempenho e multiplataforma
+- **ASP.NET Core**: Framework web para construÃ§Ã£o de APIs RESTful
+- **Entity Framework Core**: ORM para operaÃ§Ãµes de banco de dados
 - **AutoMapper**: Biblioteca para mapeamento objeto-a-objeto
-- **FluentValidation**: Biblioteca para construção de regras de validação
-- **Swagger/OpenAPI**: Documentação e teste de API
+- **FluentValidation**: Biblioteca para construÃ§Ã£o de regras de validaÃ§Ã£o
+- **Swagger/OpenAPI**: DocumentaÃ§Ã£o e teste de API
 - **SQL Server**: Banco de dados relacional
-- **xUnit**: Framework de teste para testes unitários
-- **Moq**: Framework de mock para testes unitários
+- **xUnit**: Framework de teste para testes unitÃ¡rios
+- **Moq**: Framework de mock para testes unitÃ¡rios
 
-## ? Funcionalidades
+## âœ¨ Funcionalidades
 
 - Criar, recuperar, atualizar e excluir produtos
 - Iniciar novos pedidos
@@ -49,114 +49,114 @@ Esta arquitetura proporciona:
 - Remover produtos dos pedidos
 - Fechar pedidos
 - Consultar pedidos com capacidades de filtragem
-- Validação de dados usando FluentValidation
-- Padrão de exclusão lógica para integridade de dados
-- Tratamento global de exceções
-- Suporte à paginação para endpoints de coleção
+- ValidaÃ§Ã£o de dados usando FluentValidation
+- PadrÃ£o de exclusÃ£o lÃ³gica para integridade de dados
+- Tratamento global de exceÃ§Ãµes
+- Suporte Ã  paginaÃ§Ã£o para endpoints de coleÃ§Ã£o
 
-## ?? Documentação da API
+## ğŸ“š DocumentaÃ§Ã£o da API
 
-O projeto inclui uma documentação completa da API no formato OpenAPI (Swagger). Você pode visualizar e testar a API de duas maneiras:
+O projeto inclui uma documentaÃ§Ã£o completa da API no formato OpenAPI (Swagger). VocÃª pode visualizar e testar a API de duas maneiras:
 
-1. **Swagger UI embarcado**: Quando a aplicação está em execução, acesse `/swagger` para visualizar a documentação interativa.
+1. **Swagger UI embarcado**: Quando a aplicaÃ§Ã£o estÃ¡ em execuÃ§Ã£o, acesse `/swagger` para visualizar a documentaÃ§Ã£o interativa.
 
-2. **Arquivo OpenAPI**: O arquivo `swagger.yaml` na raiz do projeto contém a especificação completa da API. Você pode visualizá-lo em:
-   - [Swagger Editor Online](https://editor.swagger.io/) - Cole o conteúdo do arquivo
-   - Qualquer ferramenta compatível com OpenAPI 3.0
+2. **Arquivo OpenAPI**: O arquivo `swagger.yaml` na raiz do projeto contÃ©m a especificaÃ§Ã£o completa da API. VocÃª pode visualizÃ¡-lo em:
+   - [Swagger Editor Online](https://editor.swagger.io/) - Cole o conteÃºdo do arquivo
+   - Qualquer ferramenta compatÃ­vel com OpenAPI 3.0
 
-O arquivo Swagger fornece documentação detalhada de:
-- Todos os endpoints disponíveis
-- Parâmetros de requisição
+O arquivo Swagger fornece documentaÃ§Ã£o detalhada de:
+- Todos os endpoints disponÃ­veis
+- ParÃ¢metros de requisiÃ§Ã£o
 - Formatos de resposta
-- Códigos de status
+- CÃ³digos de status
 - Modelos de dados
 - Exemplos de uso
 
-![Exemplo da documentação Swagger](https://raw.githubusercontent.com/swagger-api/swagger-ui/master/docs/v4.3.0/assets/swagger-ui.png)
+![Exemplo da documentaÃ§Ã£o Swagger](https://raw.githubusercontent.com/swagger-api/swagger-ui/master/docs/v4.3.0/assets/swagger-ui.png)
 
-## ?? Endpoints da API
+## ğŸ”Œ Endpoints da API
 
 ### Produtos
 
-| Método | Endpoint | Descrição |
+| MÃ©todo | Endpoint | DescriÃ§Ã£o |
 |--------|----------|-------------|
 | POST | `/api/Product` | Criar um novo produto |
-| GET | `/api/Product` | Obter todos os produtos com paginação |
+| GET | `/api/Product` | Obter todos os produtos com paginaÃ§Ã£o |
 | GET | `/api/Product/{productId}` | Obter produto por ID |
 | PUT | `/api/Product/{productId}` | Atualizar um produto |
 | DELETE | `/api/Product/{productId}` | Excluir um produto |
 
 ### Pedidos
 
-| Método | Endpoint | Descrição |
+| MÃ©todo | Endpoint | DescriÃ§Ã£o |
 |--------|----------|-------------|
 | POST | `/api/Order/start` | Iniciar um novo pedido |
 | POST | `/api/Order/{orderId}/products` | Adicionar um produto a um pedido |
 | DELETE | `/api/Order/{orderId}/products/{productId}` | Remover um produto de um pedido |
 | PATCH | `/api/Order/{orderId}/close` | Fechar um pedido |
-| GET | `/api/Order` | Obter todos os pedidos com paginação e filtragem opcional por status |
+| GET | `/api/Order` | Obter todos os pedidos com paginaÃ§Ã£o e filtragem opcional por status |
 | GET | `/api/Order/{orderId}` | Obter pedido por ID |
 
-## ?? Regras de Negócio
+## ğŸ“ Regras de NegÃ³cio
 
-- Produtos devem ter um nome e preço válidos
-- Pedidos têm dois status: Aberto e Fechado
-- Produtos só podem ser adicionados ou removidos de pedidos Abertos
-- Um pedido não pode ser fechado se não tiver produtos
-- Ao adicionar um produto que já existe no pedido, a quantidade é aumentada
-- Ao remover um produto de um pedido, ele é excluído logicamente (marcado com timestamp DeletionAt)
-- Pedidos mantêm um histórico de todas as operações
-- O valor total é calculado com base na soma de (preço do produto × quantidade) para todos os itens não excluídos
+- Produtos devem ter um nome e preÃ§o vÃ¡lidos
+- Pedidos tÃªm dois status: Aberto e Fechado
+- Produtos sÃ³ podem ser adicionados ou removidos de pedidos Abertos
+- Um pedido nÃ£o pode ser fechado se nÃ£o tiver produtos
+- Ao adicionar um produto que jÃ¡ existe no pedido, a quantidade Ã© aumentada
+- Ao remover um produto de um pedido, ele Ã© excluÃ­do logicamente (marcado com timestamp DeletionAt)
+- Pedidos mantÃªm um histÃ³rico de todas as operaÃ§Ãµes
+- O valor total Ã© calculado com base na soma de (preÃ§o do produto Ã— quantidade) para todos os itens nÃ£o excluÃ­dos
 
-## ?? Como Começar
+## ğŸ Como ComeÃ§ar
 
-### Pré-requisitos
+### PrÃ©-requisitos
 
 - SDK .NET 8
 - SQL Server
 
-### Instalação
+### InstalaÃ§Ã£o
 
-1. Clone o repositóriogit clone https://github.com/seuusuario/OrderManagementApi.git
-2. Navegue até o diretório do projetocd OrderManagementApi
-3. Restaure as dependênciasdotnet restore
-4. Atualize a string de conexão em `appsettings.json` se necessário
+1. Clone o repositÃ³riogit clone https://github.com/seuusuario/OrderManagementApi.git
+2. Navegue atÃ© o diretÃ³rio do projetocd OrderManagementApi
+3. Restaure as dependÃªnciasdotnet restore
+4. Atualize a string de conexÃ£o em `appsettings.json` se necessÃ¡rio
 
-5. Aplique as migrações do banco de dadosdotnet ef database update
-6. Execute a aplicaçãodotnet run --project OrderManagementApi
+5. Aplique as migraÃ§Ãµes do banco de dadosdotnet ef database update
+6. Execute a aplicaÃ§Ã£odotnet run --project OrderManagementApi
 7. Acesse a UI do Swagger em `https://localhost:5001/swagger` (a porta pode variar)
 
-## ?? Banco de Dados
+## ğŸ’¾ Banco de Dados
 
-A aplicação usa SQL Server com Entity Framework Core para persistência de dados. O banco de dados inclui as seguintes tabelas principais:
+A aplicaÃ§Ã£o usa SQL Server com Entity Framework Core para persistÃªncia de dados. O banco de dados inclui as seguintes tabelas principais:
 
-- **Products**: Armazena informações do produto
-- **Orders**: Armazena informações do pedido com status
-- **OrderItems**: Armazena os produtos incluídos em cada pedido
+- **Products**: Armazena informaÃ§Ãµes do produto
+- **Orders**: Armazena informaÃ§Ãµes do pedido com status
+- **OrderItems**: Armazena os produtos incluÃ­dos em cada pedido
 
-A conexão com o banco de dados é configurada em `appsettings.json`:
+A conexÃ£o com o banco de dados Ã© configurada em `appsettings.json`:
 "ConnectionStrings": {
   "database": "workstation id=OrderManagementApi-Sandbox.mssql.somee.com;packet size=4096;user id=Amandaolv_SQLLogin_1;pwd=k7ycwp3wtn;data source=OrderManagementApi-Sandbox.mssql.somee.com;persist security info=False;initial catalog=OrderManagementApi-Sandbox;TrustServerCertificate=True"
 }
-## ?? Testes
+## ğŸ§ª Testes
 
-O projeto inclui testes unitários para validação da lógica de negócios. Os testes são escritos usando xUnit e Moq para mock de dependências.
+O projeto inclui testes unitÃ¡rios para validaÃ§Ã£o da lÃ³gica de negÃ³cios. Os testes sÃ£o escritos usando xUnit e Moq para mock de dependÃªncias.
 
 Para executar os testes:
 dotnet test
-Cenários de teste principais incluem:
-- Criação de um pedido (deve estar com status Aberto)
-- Adição de produtos aos pedidos
-- Remoção de produtos dos pedidos
-- Tentativa de fechar um pedido sem produtos (deve lançar exceção)
-- Tentativa de modificar um pedido fechado (deve lançar exceção)
+CenÃ¡rios de teste principais incluem:
+- CriaÃ§Ã£o de um pedido (deve estar com status Aberto)
+- AdiÃ§Ã£o de produtos aos pedidos
+- RemoÃ§Ã£o de produtos dos pedidos
+- Tentativa de fechar um pedido sem produtos (deve lanÃ§ar exceÃ§Ã£o)
+- Tentativa de modificar um pedido fechado (deve lanÃ§ar exceÃ§Ã£o)
 
-## ?? Segurança
+## ?? SeguranÃ§a
 
-A API está preparada para autenticação e autorização, com o middleware necessário configurado no pipeline. O código comentado em `Program.cs` pode ser descomentado ao implementar uma solução completa de autenticação.
+A API estÃ¡ preparada para autenticaÃ§Ã£o e autorizaÃ§Ã£o, com o middleware necessÃ¡rio configurado no pipeline. O cÃ³digo comentado em `Program.cs` pode ser descomentado ao implementar uma soluÃ§Ã£o completa de autenticaÃ§Ã£o.
 
-## ?? Conclusão
+## ?? ConclusÃ£o
 
-Esta API de Gerenciamento de Pedidos demonstra a implementação de arquitetura limpa, design orientado por domínio e práticas modernas de desenvolvimento .NET. Ela fornece uma base sólida para construção de sistemas de e-commerce e gerenciamento de pedidos com foco em manutenibilidade, testabilidade e escalabilidade.
+Esta API de Gerenciamento de Pedidos demonstra a implementaÃ§Ã£o de arquitetura limpa, design orientado por domÃ­nio e prÃ¡ticas modernas de desenvolvimento .NET. Ela fornece uma base sÃ³lida para construÃ§Ã£o de sistemas de e-commerce e gerenciamento de pedidos com foco em manutenibilidade, testabilidade e escalabilidade.
 
-Sinta-se à vontade para contribuir ou abrir issues se encontrar bugs ou tiver sugestões para melhorias!
+Sinta-se Ã  vontade para contribuir ou abrir issues se encontrar bugs ou tiver sugestÃµes para melhorias!
