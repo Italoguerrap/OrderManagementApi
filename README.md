@@ -71,8 +71,8 @@ O arquivo Swagger fornece documentação detalhada de:
 - Códigos de status
 - Modelos de dados
 - Exemplos de uso
+- [Documentação Swagger]([https://editor.swagger.io](https://github.com/Italoguerrap/OrderManagementApi/blob/master/swagger.yaml)/) - Cole o conteúdo do arquivo
 
-![documentação Swagger](https://github.com/Italoguerrap/OrderManagementApi/blob/master/swagger.yaml)
 
 ## 🔌 Endpoints da API
 
