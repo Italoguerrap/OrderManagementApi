@@ -1,12 +1,13 @@
-﻿using OrderManagement.Domain.Entities;
-using static OrderManagement.Domain.Enums.OrderStatus;
+﻿using OrderManagement.Domain.Enums;
 
 namespace OrderManagement.Application.DTOs
 {
     public class OrderDto
     {
-        public Status Status { get; set; }
-
-        public List<OrderItem> Items { get; set; }
+        public OrderStatus Status { get; set; }
+        public List<OrderItemDto> Items { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? ClosedAt { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 }

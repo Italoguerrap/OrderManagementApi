@@ -2,7 +2,7 @@
 using OrderManagement.Application.Interfaces;
 using OrderManagement.Application.Services;
 using OrderManagement.Infrastructure.Context;
-using System;
+using OrderManagement.Infrastructure.Repositories;
 
 namespace OrderManagementApi.PipelineExtensions
 {
@@ -10,10 +10,22 @@ namespace OrderManagementApi.PipelineExtensions
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            var connString = configuration["ConnectionStrings:database"];
+            // Add DbContext
+            var connString = configuration.GetConnectionString("database");
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connString));
+            
+            // Add Repositories
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            
+            // Add Services
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IProductService, ProductService>();
+            
+            // Add AutoMapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
         }
