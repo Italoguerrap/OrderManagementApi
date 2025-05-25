@@ -151,11 +151,11 @@ Cenários de teste principais incluem:
 - Tentativa de fechar um pedido sem produtos (deve lançar exceção)
 - Tentativa de modificar um pedido fechado (deve lançar exceção)
 
-## ?? Segurança
+## 🔒 Segurança
 
 A API está preparada para autenticação e autorização, com o middleware necessário configurado no pipeline. O código comentado em `Program.cs` pode ser descomentado ao implementar uma solução completa de autenticação.
 
-## ?? Conclusão
+## 📝 Conclusão
 
 Esta API de Gerenciamento de Pedidos demonstra a implementação de arquitetura limpa, design orientado por domínio e práticas modernas de desenvolvimento .NET. Ela fornece uma base sólida para construção de sistemas de e-commerce e gerenciamento de pedidos com foco em manutenibilidade, testabilidade e escalabilidade.
 
