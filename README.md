@@ -72,7 +72,7 @@ O arquivo Swagger fornece documentação detalhada de:
 - Modelos de dados
 - Exemplos de uso
 
-![Exemplo da documentação Swagger](https://raw.githubusercontent.com/swagger-api/swagger-ui/master/docs/v4.3.0/assets/swagger-ui.png)
+![documentação Swagger]([https://raw.githubusercontent.com/swagger-api/swagger-ui/master/docs/v4.3.0/assets/swagger-ui.png](https://github.com/Italoguerrap/OrderManagementApi/blob/master/swagger.yaml))
 
 ## 🔌 Endpoints da API
 
