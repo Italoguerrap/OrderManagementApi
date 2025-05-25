@@ -28,10 +28,6 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<AddProductToOrderRequestValidator>();
 
-//// Add authentication services - since we're using [Authorize] attribute in OrderController
-//builder.Services.AddAuthentication();
-//builder.Services.AddAuthorization();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

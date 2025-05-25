@@ -1,0 +1,424 @@
+openapi: 3.0.0
+info:
+  title: Order Management API
+  description: API para gerenciamento de pedidos de produtos
+  version: 1.0.0
+  
+servers:
+  - url: /api
+    description: Servidor de desenvolvimento
+
+tags:
+  - name: Products
+    description: Operações relacionadas a produtos
+  - name: Orders
+    description: Operações relacionadas a pedidos
+
+paths:
+  /Product:
+    post:
+      tags:
+        - Products
+      summary: Criar um novo produto
+      description: Cria um novo produto com nome e preço
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '201':
+          description: Produto criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+        '400':
+          description: Dados inválidos fornecidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    propertyName:
+                      type: string
+                    errorMessage:
+                      type: string
+    
+    get:
+      tags:
+        - Products
+      summary: Listar todos os produtos
+      description: Obtém uma lista paginada de produtos
+      parameters:
+        - name: page
+          in: query
+          description: Número da página
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Tamanho da página
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Lista de produtos retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalCount:
+                    type: integer
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductDto'
+  
+  /Product/{productId}:
+    get:
+      tags:
+        - Products
+      summary: Obter produto por ID
+      description: Retorna os detalhes de um produto específico
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID do produto
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Produto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+        '404':
+          description: Produto não encontrado
+    
+    put:
+      tags:
+        - Products
+      summary: Atualizar produto
+      description: Atualiza as informações de um produto existente
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID do produto
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '200':
+          description: Produto atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+        '400':
+          description: Dados inválidos fornecidos
+        '404':
+          description: Produto não encontrado
+    
+    delete:
+      tags:
+        - Products
+      summary: Excluir produto
+      description: Exclui logicamente um produto existente
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: ID do produto
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Produto excluído com sucesso
+        '404':
+          description: Produto não encontrado
+
+  /Order/start:
+    post:
+      tags:
+        - Orders
+      summary: Iniciar um novo pedido
+      description: Cria um novo pedido com status 'Aberto'
+      responses:
+        '201':
+          description: Pedido iniciado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+  
+  /Order:
+    get:
+      tags:
+        - Orders
+      summary: Listar todos os pedidos
+      description: Obtém uma lista paginada de pedidos, com filtragem opcional por status
+      parameters:
+        - name: page
+          in: query
+          description: Número da página
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Tamanho da página
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: status
+          in: query
+          description: Filtrar por status (0 = Aberto, 1 = Fechado)
+          required: false
+          schema:
+            type: integer
+            enum: [0, 1]
+      responses:
+        '200':
+          description: Lista de pedidos retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalCount:
+                    type: integer
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrderDto'
+  
+  /Order/{orderId}:
+    get:
+      tags:
+        - Orders
+      summary: Obter pedido por ID
+      description: Retorna os detalhes de um pedido específico
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          description: ID do pedido
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Pedido encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+        '404':
+          description: Pedido não encontrado
+  
+  /Order/{orderId}/products:
+    post:
+      tags:
+        - Orders
+      summary: Adicionar produto ao pedido
+      description: Adiciona um produto ao pedido especificado
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          description: ID do pedido
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddProductToOrderRequest'
+      responses:
+        '200':
+          description: Produto adicionado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+        '400':
+          description: Dados inválidos fornecidos
+        '404':
+          description: Pedido ou produto não encontrado
+  
+  /Order/{orderId}/products/{productId}:
+    delete:
+      tags:
+        - Orders
+      summary: Remover produto do pedido
+      description: Remove um produto específico do pedido
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          description: ID do pedido
+          schema:
+            type: integer
+            format: int64
+        - name: productId
+          in: path
+          required: true
+          description: ID do produto
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Produto removido com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+        '404':
+          description: Pedido ou produto não encontrado
+  
+  /Order/{orderId}/close:
+    patch:
+      tags:
+        - Orders
+      summary: Fechar pedido
+      description: Muda o status do pedido para 'Fechado'
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          description: ID do pedido
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Pedido fechado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+        '404':
+          description: Pedido não encontrado
+        '400':
+          description: Pedido não pode ser fechado (ex. sem produtos)
+
+components:
+  schemas:
+    ProductRequest:
+      type: object
+      required:
+        - name
+        - price
+      properties:
+        name:
+          type: string
+          description: Nome do produto
+          example: "Smartphone XYZ"
+        price:
+          type: number
+          format: decimal
+          description: Preço do produto
+          example: 1999.99
+    
+    ProductDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Smartphone XYZ"
+        price:
+          type: number
+          format: decimal
+          example: 1999.99
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    
+    AddProductToOrderRequest:
+      type: object
+      required:
+        - productId
+        - quantity
+      properties:
+        productId:
+          type: integer
+          format: int64
+          description: ID do produto a ser adicionado
+          example: 1
+        quantity:
+          type: integer
+          description: Quantidade do produto
+          example: 2
+    
+    OrderItemDto:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+        productName:
+          type: string
+        price:
+          type: number
+          format: decimal
+        quantity:
+          type: integer
+    
+    OrderDto:
+      type: object
+      properties:
+        status:
+          type: integer
+          enum: [0, 1]
+          description: Status do pedido (0 = Aberto, 1 = Fechado)
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItemDto'
+        createdAt:
+          type: string
+          format: date-time
+        closedAt:
+          type: string
+          format: date-time
+          nullable: true
+        totalAmount:
+          type: number
+          format: decimal
+          description: Valor total do pedido
