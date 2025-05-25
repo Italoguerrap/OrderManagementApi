@@ -136,7 +136,7 @@ A aplicação usa SQL Server com Entity Framework Core para persistência de dad
 
 A conexão com o banco de dados é configurada em `appsettings.json`:
 "ConnectionStrings": {
-  "database": "workstation id=OrderManagementApi-Sandbox.mssql.somee.com;packet size=4096;user id=Amandaolv_SQLLogin_1;pwd=k7ycwp3wtn;data source=OrderManagementApi-Sandbox.mssql.somee.com;persist security info=False;initial catalog=OrderManagementApi-Sandbox;TrustServerCertificate=True"
+  "database": "workstation id=OrderManagementApi-Sandbox.mssql.somee.com;packet size=4096;user id=xxxxx;pwd=xxxxx;data source=OrderManagementApi-Sandbox.mssql.somee.com;persist security info=False;initial catalog=OrderManagementApi-Sandbox;TrustServerCertificate=True"
 }
 ## 🧪 Testes
 
