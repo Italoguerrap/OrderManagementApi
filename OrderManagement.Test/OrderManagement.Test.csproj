@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\OrderManagement.Application\OrderManagement.Application.csproj" />
     <ProjectReference Include="..\OrderManagement.Infrastructure\OrderManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\OrderManagementApi\OrderManagementApi.csproj" />
   </ItemGroup>
 
   <ItemGroup>

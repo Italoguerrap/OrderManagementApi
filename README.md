@@ -13,6 +13,7 @@ Uma API RESTful robusta para gerenciamento de pedidos de produtos, construída c
 - [Como Começar](#como-começar)
 - [Banco de Dados](#banco-de-dados)
 - [Testes](#testes)
+- [Segurança](#segurança)
 
 ## 🏗️ Arquitetura
 
@@ -38,17 +39,30 @@ Esta arquitetura proporciona:
 - **FluentValidation**: Biblioteca para construção de regras de validação
 - **Swagger/OpenAPI**: Documentação e teste de API
 - **SQL Server**: Banco de dados relacional
+- **JWT Authentication**: Autenticação baseada em tokens JWT
 - **xUnit**: Framework de teste para testes unitários
 - **Moq**: Framework de mock para testes unitários
 
 ## ✨ Funcionalidades
 
+### Gerenciamento de Usuários e Autenticação
+- Registro de novos usuários com CPF e senha
+- Autenticação de usuários via JWT (JSON Web Tokens)
+- Renovação de tokens expirados via refresh token
+- Redefinição de senha
+
+### Gerenciamento de Produtos
 - Criar, recuperar, atualizar e excluir produtos
+- Listar produtos com paginação
+
+### Gerenciamento de Pedidos
 - Iniciar novos pedidos
 - Adicionar produtos aos pedidos
 - Remover produtos dos pedidos
 - Fechar pedidos
 - Consultar pedidos com capacidades de filtragem
+
+### Outros Recursos
 - Validação de dados usando FluentValidation
 - Padrão de exclusão lógica para integridade de dados
 - Tratamento global de exceções
@@ -60,7 +74,11 @@ O projeto inclui uma documentação completa da API no formato OpenAPI (Swagger)
 
 1. **Swagger UI embarcado**: Quando a aplicação está em execução, acesse `/swagger` para visualizar a documentação interativa.
 
-2. **Arquivo OpenAPI**: O arquivo `swagger.yaml` na raiz do projeto contém a especificação completa da API. Você pode visualizá-lo em:
+2. **API em Produção**: A API está hospedada e pode ser acessada em:
+   - [https://ordermanagementapi.somee.com/api](https://ordermanagementapi.somee.com/api)
+   - Documentação Swagger: [https://ordermanagementapi.somee.com/swagger](https://ordermanagementapi.somee.com/swagger)
+
+3. **Arquivo OpenAPI**: O arquivo `swagger.yaml` na raiz do projeto contém a especificação completa da API. Você pode visualizá-lo em:
    - [Swagger Editor Online](https://editor.swagger.io/) - Cole o conteúdo do arquivo
    - Qualquer ferramenta compatível com OpenAPI 3.0
 
@@ -74,6 +92,15 @@ O arquivo Swagger fornece documentação detalhada de:
 
 
 ## 🔌 Endpoints da API
+
+### Autenticação
+
+| Método | Endpoint | Descrição |
+|--------|----------|-------------|
+| POST | `/api/Auth/register` | Registrar um novo usuário |
+| POST | `/api/Auth/login` | Autenticar usuário |
+| POST | `/api/Auth/refresh` | Renovar token expirado |
+| POST | `/api/Auth/reset-password` | Redefinir senha de usuário |
 
 ### Produtos
 
@@ -98,6 +125,13 @@ O arquivo Swagger fornece documentação detalhada de:
 
 ## 📏 Regras de Negócio
 
+### Usuários e Autenticação
+- CPF é utilizado como identificador único do usuário
+- Senhas são armazenadas de forma segura (hash+salt)
+- Tokens JWT expiram após um tempo determinado
+- Refresh tokens permitem renovar o acesso sem nova autenticação
+
+### Produtos e Pedidos
 - Produtos devem ter um nome e preço válidos
 - Pedidos têm dois status: Aberto e Fechado
 - Produtos só podem ser adicionados ou removidos de pedidos Abertos
@@ -129,21 +163,22 @@ O arquivo Swagger fornece documentação detalhada de:
 
 A aplicação usa SQL Server com Entity Framework Core para persistência de dados. O banco de dados inclui as seguintes tabelas principais:
 
+- **Users**: Armazena informações de usuários e senhas encriptadas
+- **RefreshTokens**: Armazena tokens de atualização para autenticação
 - **Products**: Armazena informações do produto
 - **Orders**: Armazena informações do pedido com status
 - **OrderItems**: Armazena os produtos incluídos em cada pedido
 
-A conexão com o banco de dados é configurada em `appsettings.json`:
-"ConnectionStrings": {
+A conexão com o banco de dados é configurada em `appsettings.json`:"ConnectionStrings": {
   "database": "workstation id=OrderManagementApi-Sandbox.mssql.somee.com;packet size=4096;user id=xxxxx;pwd=xxxxx;data source=OrderManagementApi-Sandbox.mssql.somee.com;persist security info=False;initial catalog=OrderManagementApi-Sandbox;TrustServerCertificate=True"
 }
 ## 🧪 Testes
 
 O projeto inclui testes unitários para validação da lógica de negócios. Os testes são escritos usando xUnit e Moq para mock de dependências.
 
-Para executar os testes:
-dotnet test
+Para executar os testes:dotnet test
 Cenários de teste principais incluem:
+- Autenticação e registro de usuários
 - Criação de um pedido (deve estar com status Aberto)
 - Adição de produtos aos pedidos
 - Remoção de produtos dos pedidos
@@ -152,8 +187,17 @@ Cenários de teste principais incluem:
 
 ## 🔒 Segurança
 
-A API está preparada para autenticação e autorização, com o middleware necessário configurado no pipeline. O código comentado em `Program.cs` pode ser descomentado ao implementar uma solução completa de autenticação.
+A API implementa autenticação baseada em JWT (JSON Web Tokens) com os seguintes recursos:
 
+- Tokens de acesso com tempo de expiração configurável
+- Refresh tokens para renovação de sessão
+- Endpoints protegidos com atributo [Authorize]
+- Validação segura de credenciais
+- Armazenamento seguro de senhas com hash e salt
+
+Para acessar endpoints protegidos, é necessário:
+1. Registrar um usuário ou fazer login para obter um token
+2. Incluir o token no cabeçalho de autorização das requisições:Authorization: Bearer {seu_token_aqui}
 ## 📝 Conclusão
 
 Esta API de Gerenciamento de Pedidos demonstra a implementação de arquitetura limpa, design orientado por domínio e práticas modernas de desenvolvimento .NET. Ela fornece uma base sólida para construção de sistemas de e-commerce e gerenciamento de pedidos com foco em manutenibilidade, testabilidade e escalabilidade.

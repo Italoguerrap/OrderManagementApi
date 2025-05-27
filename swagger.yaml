@@ -5,22 +5,209 @@ info:
   version: 1.0.0
   
 servers:
-  - url: /api
-    description: Servidor de desenvolvimento
+  - url: https://ordermanagementapi.somee.com/api
 
 tags:
+  - name: Auth
+    description: Operações relacionadas a autenticação e usuários
   - name: Products
     description: Operações relacionadas a produtos
   - name: Orders
     description: Operações relacionadas a pedidos
 
 paths:
+  /Auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Registrar novo usuário
+      description: Registra um novo usuário no sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '200':
+          description: Usuário registrado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  expiration:
+                    type: string
+                    format: date-time
+                  refreshToken:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                      cpf:
+                        type: string
+        '400':
+          description: Dados inválidos fornecidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    propertyName:
+                      type: string
+                    errorMessage:
+                      type: string
+        '500':
+          description: Erro interno do servidor
+
+  /Auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Autenticar usuário
+      description: Autentica um usuário existente no sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Usuário autenticado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  expiration:
+                    type: string
+                    format: date-time
+                  refreshToken:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                      cpf:
+                        type: string
+        '400':
+          description: Dados inválidos fornecidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    propertyName:
+                      type: string
+                    errorMessage:
+                      type: string
+        '401':
+          description: Credenciais inválidas
+        '500':
+          description: Erro interno do servidor
+
+  /Auth/refresh:
+    post:
+      tags:
+        - Auth
+      summary: Renovar token
+      description: Renova um token expirado usando o refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: Token renovado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  expiration:
+                    type: string
+                    format: date-time
+                  refreshToken:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                      cpf:
+                        type: string
+        '400':
+          description: Dados inválidos fornecidos
+        '401':
+          description: Token inválido ou expirado
+        '500':
+          description: Erro interno do servidor
+
+  /Auth/reset-password:
+    post:
+      tags:
+        - Auth
+      summary: Redefinir senha
+      description: Redefine a senha de um usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Senha redefinida com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Dados inválidos fornecidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    propertyName:
+                      type: string
+                    errorMessage:
+                      type: string
+        '500':
+          description: Erro interno do servidor
+
   /Product:
     post:
       tags:
         - Products
       summary: Criar um novo produto
       description: Cria um novo produto com nome e preço
+      security:
+        - Bearer: []
       requestBody:
         required: true
         content:
@@ -53,6 +240,8 @@ paths:
         - Products
       summary: Listar todos os produtos
       description: Obtém uma lista paginada de produtos
+      security:
+        - Bearer: []
       parameters:
         - name: page
           in: query
@@ -93,6 +282,8 @@ paths:
         - Products
       summary: Obter produto por ID
       description: Retorna os detalhes de um produto específico
+      security:
+        - Bearer: []
       parameters:
         - name: productId
           in: path
@@ -116,6 +307,8 @@ paths:
         - Products
       summary: Atualizar produto
       description: Atualiza as informações de um produto existente
+      security:
+        - Bearer: []
       parameters:
         - name: productId
           in: path
@@ -147,6 +340,8 @@ paths:
         - Products
       summary: Excluir produto
       description: Exclui logicamente um produto existente
+      security:
+        - Bearer: []
       parameters:
         - name: productId
           in: path
@@ -167,6 +362,8 @@ paths:
         - Orders
       summary: Iniciar um novo pedido
       description: Cria um novo pedido com status 'Aberto'
+      security:
+        - Bearer: []
       responses:
         '201':
           description: Pedido iniciado com sucesso
@@ -181,6 +378,8 @@ paths:
         - Orders
       summary: Listar todos os pedidos
       description: Obtém uma lista paginada de pedidos, com filtragem opcional por status
+      security:
+        - Bearer: []
       parameters:
         - name: page
           in: query
@@ -228,6 +427,8 @@ paths:
         - Orders
       summary: Obter pedido por ID
       description: Retorna os detalhes de um pedido específico
+      security:
+        - Bearer: []
       parameters:
         - name: orderId
           in: path
@@ -252,6 +453,8 @@ paths:
         - Orders
       summary: Adicionar produto ao pedido
       description: Adiciona um produto ao pedido especificado
+      security:
+        - Bearer: []
       parameters:
         - name: orderId
           in: path
@@ -284,6 +487,8 @@ paths:
         - Orders
       summary: Remover produto do pedido
       description: Remove um produto específico do pedido
+      security:
+        - Bearer: []
       parameters:
         - name: orderId
           in: path
@@ -315,6 +520,8 @@ paths:
         - Orders
       summary: Fechar pedido
       description: Muda o status do pedido para 'Fechado'
+      security:
+        - Bearer: []
       parameters:
         - name: orderId
           in: path
@@ -336,7 +543,77 @@ paths:
           description: Pedido não pode ser fechado (ex. sem produtos)
 
 components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+
   schemas:
+    RegisterRequest:
+      type: object
+      required:
+        - cpf
+        - password
+      properties:
+        cpf:
+          type: string
+          description: CPF do usuário (apenas números ou com formatação)
+          example: "123.456.789-00"
+        password:
+          type: string
+          description: Senha do usuário
+          format: password
+          example: "Senha@123"
+    
+    LoginRequest:
+      type: object
+      required:
+        - cpf
+        - password
+      properties:
+        cpf:
+          type: string
+          description: CPF do usuário (apenas números ou com formatação)
+          example: "123.456.789-00"
+        password:
+          type: string
+          description: Senha do usuário
+          format: password
+          example: "Senha@123"
+    
+    RefreshTokenRequest:
+      type: object
+      required:
+        - accessToken
+        - refreshToken
+      properties:
+        accessToken:
+          type: string
+          description: Token de acesso JWT
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        refreshToken:
+          type: string
+          description: Token de atualização
+          example: "6ce5c5a0-c8e0-4c4f-9512-5a33dc4a0120"
+    
+    ResetPasswordRequest:
+      type: object
+      required:
+        - cpf
+        - newPassword
+      properties:
+        cpf:
+          type: string
+          description: CPF do usuário (apenas números ou com formatação)
+          example: "123.456.789-00"
+        newPassword:
+          type: string
+          description: Nova senha do usuário
+          format: password
+          example: "NovaSenha@123"
+    
     ProductRequest:
       type: object
       required:
@@ -356,6 +633,9 @@ components:
     ProductDto:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         name:
           type: string
           example: "Smartphone XYZ"
@@ -389,6 +669,9 @@ components:
     OrderItemDto:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         productId:
           type: integer
           format: int64
@@ -403,6 +686,9 @@ components:
     OrderDto:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         status:
           type: integer
           enum: [0, 1]

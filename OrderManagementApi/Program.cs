@@ -11,18 +11,18 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "Order Management API",
-        Version = "v1",
-        Description = "API para gerenciamento de pedidos"
-    });
-});
+
+// Adicionar Swagger com configuração JWT
+builder.Services.AddSwaggerWithJwt();
+
+// Configurar autenticação JWT
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 // Register infrastructure services
 builder.Services.AddInfrastructure(builder.Configuration);
+
+// Registrar serviços de autenticação
+builder.Services.AddAuthServices();
 
 // Register validators
 builder.Services.AddFluentValidationAutoValidation();

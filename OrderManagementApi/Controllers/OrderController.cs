@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrderManagement.API.Requests;
 using OrderManagement.Application.DTOs;
@@ -10,6 +11,7 @@ namespace OrderManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderController(IOrderService orderService) : ControllerBase
     {
         protected virtual IOrderService OrderService { get; set; } = orderService;
@@ -44,6 +46,7 @@ namespace OrderManagement.API.Controllers
         /// Adiciona um produto a um pedido existente
         /// </summary>
         [HttpPost("{orderId}/products")]
+        [Authorize]
         public virtual async Task<IActionResult> AddProductAsync([FromRoute] long orderId, [FromBody] AddProductToOrderRequest request, [FromServices] IValidator<AddProductToOrderRequest> validator, CancellationToken cancellationToken)
         {
             ValidationResult validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -60,6 +63,7 @@ namespace OrderManagement.API.Controllers
         /// Remove um produto de um pedido existente
         /// </summary>
         [HttpDelete("{orderId}/products/{productId}")]
+        [Authorize]
         public virtual async Task<IActionResult> RemoveProductAsync([FromRoute] long orderId, [FromRoute] long productId, CancellationToken cancellationToken)
         {
             OrderDto updatedOrder = await OrderService.RemoveProductFromOrderAsync(orderId, productId, cancellationToken);
@@ -74,6 +78,7 @@ namespace OrderManagement.API.Controllers
         /// Obtém todos os pedidos com suporte a paginação e filtragem por status
         /// </summary>
         [HttpGet]
+        [Authorize]
         public virtual async Task<IActionResult> GetAllOrdersAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] OrderStatus? status = null, CancellationToken cancellationToken = default)
         {
             IEnumerable<OrderDto> orders;
@@ -97,6 +102,7 @@ namespace OrderManagement.API.Controllers
         /// Obtém um pedido específico pelo seu ID
         /// </summary>
         [HttpGet("{orderId}")]
+        [Authorize]
         public virtual async Task<IActionResult> GetByIdAsync([FromRoute] long orderId, CancellationToken cancellationToken)
         {
             OrderDto? order = await OrderService.GetByIdAsync(orderId, cancellationToken);

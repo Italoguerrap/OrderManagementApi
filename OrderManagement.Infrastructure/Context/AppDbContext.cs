@@ -8,5 +8,6 @@ namespace OrderManagement.Infrastructure.Context
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
     }
 }
