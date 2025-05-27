@@ -14,6 +14,11 @@ namespace OrderManagement.API.Controllers
     {
         protected virtual IOrderService OrderService { get; set; } = orderService;
 
+        #region Gerenciamento de Pedidos
+
+        /// <summary>
+        /// Inicia um novo pedido com status Aberto
+        /// </summary>
         [HttpPost("start")]
         public virtual async Task<IActionResult> StartOrderAsync(CancellationToken cancellationToken)
         {
@@ -21,6 +26,23 @@ namespace OrderManagement.API.Controllers
             return StatusCode(201, order);
         }
 
+        /// <summary>
+        /// Fecha um pedido existente, alterando seu status para Fechado
+        /// </summary>
+        [HttpPatch("{orderId}/close")]
+        public virtual async Task<IActionResult> CloseOrderAsync([FromRoute] long orderId, CancellationToken cancellationToken)
+        {
+            OrderDto closedOrder = await OrderService.CloseOrderAsync(orderId, cancellationToken);
+            return Ok(closedOrder);
+        }
+
+        #endregion
+
+        #region Gerenciamento de Produtos no Pedido
+
+        /// <summary>
+        /// Adiciona um produto a um pedido existente
+        /// </summary>
         [HttpPost("{orderId}/products")]
         public virtual async Task<IActionResult> AddProductAsync([FromRoute] long orderId, [FromBody] AddProductToOrderRequest request, [FromServices] IValidator<AddProductToOrderRequest> validator, CancellationToken cancellationToken)
         {
@@ -34,20 +56,23 @@ namespace OrderManagement.API.Controllers
             return Ok(updatedOrder);
         }
 
+        /// <summary>
+        /// Remove um produto de um pedido existente
+        /// </summary>
         [HttpDelete("{orderId}/products/{productId}")]
-        public virtual async Task<IActionResult> RemoveProductAsync([FromRoute] long orderId,[FromRoute] long productId, CancellationToken cancellationToken)
+        public virtual async Task<IActionResult> RemoveProductAsync([FromRoute] long orderId, [FromRoute] long productId, CancellationToken cancellationToken)
         {
             OrderDto updatedOrder = await OrderService.RemoveProductFromOrderAsync(orderId, productId, cancellationToken);
             return Ok(updatedOrder);
         }
 
-        [HttpPatch("{orderId}/close")]
-        public virtual async Task<IActionResult> CloseOrderAsync([FromRoute] long orderId,CancellationToken cancellationToken)
-        {
-            OrderDto closedOrder = await OrderService.CloseOrderAsync(orderId, cancellationToken);
-            return Ok(closedOrder);
-        }
+        #endregion
 
+        #region Consultas
+
+        /// <summary>
+        /// Obtém todos os pedidos com suporte a paginação e filtragem por status
+        /// </summary>
         [HttpGet]
         public virtual async Task<IActionResult> GetAllOrdersAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] OrderStatus? status = null, CancellationToken cancellationToken = default)
         {
@@ -68,11 +93,16 @@ namespace OrderManagement.API.Controllers
             });
         }
 
+        /// <summary>
+        /// Obtém um pedido específico pelo seu ID
+        /// </summary>
         [HttpGet("{orderId}")]
         public virtual async Task<IActionResult> GetByIdAsync([FromRoute] long orderId, CancellationToken cancellationToken)
         {
             OrderDto? order = await OrderService.GetByIdAsync(orderId, cancellationToken);
             return order is null ? NotFound() : Ok(order);
         }
+
+        #endregion
     }
 }
