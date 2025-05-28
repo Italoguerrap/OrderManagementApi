@@ -21,7 +21,6 @@ namespace OrderManagement.Application.Services
 
             var token = tokenService.GenerateAccessToken(user);
 
-            // Atualiza o refresh token no banco de dados
             user.RefreshToken = token.RefreshToken;
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
             await userRepository.UpdateAsync(user.Id, user, cancellationToken);
@@ -42,32 +41,11 @@ namespace OrderManagement.Application.Services
             user = await userRepository.AddAsync(user, cancellationToken);
             var token = tokenService.GenerateAccessToken(user);
 
-            // Salva o refresh token
             user.RefreshToken = token.RefreshToken;
             user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
             await userRepository.UpdateAsync(user.Id, user, cancellationToken);
 
             return token;
-        }
-
-        public async Task<TokenDto> RefreshTokenAsync(string accessToken, string refreshToken, CancellationToken cancellationToken)
-        {
-            var userId = tokenService.ValidateToken(accessToken);
-            if (!userId.HasValue)
-                throw new OrderManagementException("Token inválido");
-
-            var user = await userRepository.GetByIdAsync(userId.Value, cancellationToken);
-            if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
-                throw new OrderManagementException("Refresh token inválido ou expirado");
-
-            var newToken = tokenService.GenerateAccessToken(user);
-
-            // Atualiza o refresh token
-            user.RefreshToken = newToken.RefreshToken;
-            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
-            await userRepository.UpdateAsync(user.Id, user, cancellationToken);
-
-            return newToken;
         }
 
         public async Task<bool> ResetPasswordAsync(string cpf, string newPassword, CancellationToken cancellationToken)

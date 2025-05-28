@@ -15,7 +15,6 @@ namespace OrderManagementApi.PipelineExtensions
                     Description = "API para gerenciamento de pedidos"
                 });
 
-                // Configuração para o Swagger usar o JWT
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",

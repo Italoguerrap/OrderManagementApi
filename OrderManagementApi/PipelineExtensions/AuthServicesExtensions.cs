@@ -10,7 +10,6 @@ namespace OrderManagementApi.PipelineExtensions
     {
         public static IServiceCollection AddAuthServices(this IServiceCollection services)
         {
-            // Registrar serviços de autenticação
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();

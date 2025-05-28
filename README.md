@@ -48,7 +48,6 @@ Esta arquitetura proporciona:
 ### Gerenciamento de Usuários e Autenticação
 - Registro de novos usuários com CPF e senha
 - Autenticação de usuários via JWT (JSON Web Tokens)
-- Renovação de tokens expirados via refresh token
 - Redefinição de senha
 
 ### Gerenciamento de Produtos
@@ -99,7 +98,6 @@ O arquivo Swagger fornece documentação detalhada de:
 |--------|----------|-------------|
 | POST | `/api/Auth/register` | Registrar um novo usuário |
 | POST | `/api/Auth/login` | Autenticar usuário |
-| POST | `/api/Auth/refresh` | Renovar token expirado |
 | POST | `/api/Auth/reset-password` | Redefinir senha de usuário |
 
 ### Produtos
@@ -129,7 +127,7 @@ O arquivo Swagger fornece documentação detalhada de:
 - CPF é utilizado como identificador único do usuário
 - Senhas são armazenadas de forma segura (hash+salt)
 - Tokens JWT expiram após um tempo determinado
-- Refresh tokens permitem renovar o acesso sem nova autenticação
+- Autenticação baseada em tokens JWT
 
 ### Produtos e Pedidos
 - Produtos devem ter um nome e preço válidos
@@ -164,7 +162,6 @@ O arquivo Swagger fornece documentação detalhada de:
 A aplicação usa SQL Server com Entity Framework Core para persistência de dados. O banco de dados inclui as seguintes tabelas principais:
 
 - **Users**: Armazena informações de usuários e senhas encriptadas
-- **RefreshTokens**: Armazena tokens de atualização para autenticação
 - **Products**: Armazena informações do produto
 - **Orders**: Armazena informações do pedido com status
 - **OrderItems**: Armazena os produtos incluídos em cada pedido
@@ -190,7 +187,6 @@ Cenários de teste principais incluem:
 A API implementa autenticação baseada em JWT (JSON Web Tokens) com os seguintes recursos:
 
 - Tokens de acesso com tempo de expiração configurável
-- Refresh tokens para renovação de sessão
 - Endpoints protegidos com atributo [Authorize]
 - Validação segura de credenciais
 - Armazenamento seguro de senhas com hash e salt

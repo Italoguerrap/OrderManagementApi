@@ -94,41 +94,6 @@ namespace OrderManagementApi.Controllers
                 return StatusCode(500, "Ocorreu um erro ao processar a solicitação");
             }
         }
-
-        /// <summary>
-        /// Renova um token expirado usando o refresh token
-        /// </summary>
-        [HttpPost("refresh")]
-        [AllowAnonymous]
-        public async Task<IActionResult> RefreshTokenAsync([FromBody] RefreshTokenRequest request,CancellationToken cancellationToken)
-        {
-            if (string.IsNullOrEmpty(request.AccessToken) || string.IsNullOrEmpty(request.RefreshToken))
-            {
-                return BadRequest("Token de acesso e refresh token são obrigatórios");
-            }
-
-            try
-            {
-                var token = await _authService.RefreshTokenAsync(request.AccessToken, request.RefreshToken, cancellationToken);
-
-                return Ok(new
-                {
-                    token.AccessToken,
-                    token.Expiration,
-                    token.RefreshToken,
-                    User = new { Id = token.User.Id, Cpf = token.User.Cpf }
-                });
-            }
-            catch (OrderManagementException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Ocorreu um erro ao processar a solicitação");
-            }
-        }
-
         #endregion
 
         #region Recuperação de Senha
